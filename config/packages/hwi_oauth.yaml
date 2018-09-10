@@ -1,0 +1,7 @@
+hwi_oauth:
+    firewall_names: [main]
+    resource_owners:
+        vkontakte:
+            type: vkontakte
+            client_id: "%env(VK_CLIENT_ID)%"
+            client_secret: "%env(VK_SECRET_KEY)%"

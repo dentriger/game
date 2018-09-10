@@ -27,5 +27,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+
+    my.oauth_user_provider:
+            class: App\Security\UserProvider
+            autowire: false
+            arguments:
+                - '@App\Repository\UserRepository'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

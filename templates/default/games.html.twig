@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}">
+{% endblock %}
+{% block body %}
+    <main>
+        <div class="game-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="game">
+                            <div class="select-mode-bar">
+                                <h5 class="text-center">Выбор режима:</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 text-center">
+                                        <a href="{{ path('double') }}" class="btn">Double</a>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <a href="{{ path('jackpot') }}" class="btn active">Jackpot</a>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <a href="{{ path('nvuti') }}" class="btn">Nvuti</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="game-zone">
+                                {% block game %} {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="chat">
+                            <div class="chat-content">
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                                <div class="message">
+                                    <div class="message-head">
+                                        <div class="message-avatar">
+                                            <img src="images/test-avatar.png">
+                                        </div>
+                                        <div class="message-user-info">
+                                            <div class="name">Name</div>
+                                            <div class="id">@144153</div>
+                                        </div>
+                                    </div>
+                                    <div class="message-text">
+                                        Щас ред, точно
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-form form-inline">
+                                <input type="text" class="form-control" placeholder="Напишите что нибудь">
+                                <button type="submit" class="btn ml-auto float-lg-right">GO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
