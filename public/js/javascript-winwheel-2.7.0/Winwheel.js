@@ -518,6 +518,7 @@ Winwheel.prototype.drawWheelImage = function()
         this.ctx.save();
         this.ctx.translate(this.centerX, this.centerY);
         this.ctx.rotate(this.degToRad(this.rotationAngle));
+        console.log('rotate', this.degToRad(this.rotationAngle));
         this.ctx.translate(-this.centerX, -this.centerY);
 
         this.ctx.drawImage(this.wheelImage, imageLeft, imageTop);

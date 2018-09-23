@@ -8,32 +8,23 @@
 
 namespace App\Services;
 
+use App\Entity\Game;
+use App\Repository\BetRepository;
+use App\Repository\GameRepository;
+use App\Repository\UserRepository;
+use App\Repository\WalletRepository;
+use App\Service\GameService;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use WebSocket\Client;
+use WebSocket\BadOpcodeException;
 
-class DoubleGame
+class DoubleGame extends GameService
 {
     private $socket;
 
     private $round_time;
 
-    private $current_time;
-//{'text' : '0'},
-//{'text' : '1'},
-//{'text' : '8'},
-//{'text' : '2'},
-//{'text' : '9'},
-//{'text' : '3'},
-//{'text' : '10'},
-//{'text' : '4'},
-//{'text' : '11'},
-//{'text' : '5'},
-//{'text' : '12'},
-//{'text' : '6'},
-//{'text' : '13'},
-//{'text' : '7'},
-//{'text' : '14'},
     private $prize_segments = [
         1 => 0,
         2 => 1,
@@ -52,40 +43,54 @@ class DoubleGame
         15 => 14
     ];
 
-    public function __construct()
+    protected $gameRules = [
+        'green' => 14,
+        'red' => 2,
+        'black' => 2,
+    ];
+
+    public function __construct(GameRepository $gameRepository, BetRepository $betRepository, WalletRepository $walletRepository)
     {
         $this->socket = new Client('ws://localhost:8080');
-
         $this->round_time = 30;
 
+        parent::__construct($gameRepository, $walletRepository, $betRepository);
+
     }
 
-    public function start() {
-        $this->current_time = $this->round_time;
-
-        while ($this->current_time >= 0) {
-            try {
-                $msg = $this->createMessage('double', ['timer' => $this->current_time]);
-                $this->socket->send($msg);
-            } catch (\Websocket\BadOpcodeException $e) {
-                echo $e->getMessage() . "\n";
-            }
-            $this->current_time -= 1;
-            sleep(1);
-        }
-
-        $segment = $this->getPrizeSegment();
-        $msg = $this->createMessage('double', ['segment' => $segment]);
-        $this->socket->send($msg);
-
-        sleep(10);
-
-        $this->start();
-    }
-
-    public function createGame()
+    public function startGame()
     {
+        try {
+            echo "New Game\n";
+            $game = $this->createNewGame();
+            $current_time = $this->round_time;
 
+            while ($current_time >= 0) {
+                $msg = DoubleGame::createMessage('double', ['timer' => $current_time]);
+                $this->socket->send($msg);
+
+                $current_time -= 1;
+                sleep(1);
+            }
+
+            $segment = $this->getPrizeSegment();
+            $this->closeGame($game, $this->prize_segments[$segment], $this->getColor($segment));
+            $msg = DoubleGame::createMessage('double', ['segment' => $segment]);
+
+            $this->socket->send($msg);
+
+            sleep(10);
+
+            $this->calculateRates($game);
+
+            $this->startGame();
+        } catch (BadOpcodeException $e) {
+            echo $e->getMessage();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        } finally {
+            //$this->startGame();
+        }
     }
 
     public function getRandomNumber()
@@ -98,10 +103,23 @@ class DoubleGame
         return array_search($this->getRandomNumber(), $this->prize_segments);
     }
 
-    public function createMessage($msg, $data)
+    public function getMultiplier($event)
     {
-        $message = [self::class, 'message' => $msg, 'data' => $data];
+        return $this->gameRules[$event];
+    }
 
-        return json_encode($message);
+    public function getColor($segment)
+    {
+        if($this->prize_segments[$segment] == 0) {
+            return 'green';
+        }
+
+        if($this->prize_segments[$segment] <= 7) {
+            return 'red';
+        }
+
+        if ($this->prize_segments[$segment] >= 8) {
+            return 'black';
+        }
     }
 }

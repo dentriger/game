@@ -41,4 +41,11 @@ class BetRepository extends ServiceEntityRepository
 
         return $bet;
     }
+
+    public function updateBetStatus(Bet $bet, $status)
+    {
+        $bet->setStatus($status);
+        $this->_em->persist($bet);
+        $this->_em->flush();
+    }
 }
