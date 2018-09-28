@@ -31,14 +31,19 @@ class Bet
      */
     private $game_id;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
-    private $stake;
+    private $amount;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255)
      */
-    private $anticipated_event;
+    private $currency;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $bet_time;
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -73,14 +78,14 @@ class Bet
         return $this;
     }
 
-    public function getStake(): ?int
+    public function getAmount(): ?float
     {
-        return $this->stake;
+        return $this->amount;
     }
 
-    public function setStake(int $stake): self
+    public function setAmount(float $amount): self
     {
-        $this->stake = $stake;
+        $this->amount = $amount;
 
         return $this;
     }
@@ -101,21 +106,6 @@ class Bet
         $this->game_id = $game_id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAnticipatedEvent()
-    {
-        return $this->anticipated_event;
-    }
-
-    /**
-     * @param mixed $anticipated_event
-     */
-    public function setAnticipatedEvent($anticipated_event): void
-    {
-        $this->anticipated_event = $anticipated_event;
-    }
 
     public function getStatus(): ?string
     {
@@ -127,5 +117,37 @@ class Bet
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBetTime()
+    {
+        return $this->bet_time;
+    }
+
+    /**
+     * @param mixed $bet_time
+     */
+    public function setBetTime($bet_time): void
+    {
+        $this->bet_time = $bet_time;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    public function setCurrency($currency): void
+    {
+        $this->currency = $currency;
     }
 }

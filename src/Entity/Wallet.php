@@ -22,7 +22,7 @@ class Wallet
     private $user_id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $balance = 0;
 

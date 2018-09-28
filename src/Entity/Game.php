@@ -14,32 +14,37 @@ class Game
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $time;
+    protected $time;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    protected $status;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $win_number;
+    protected $gameHash;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $anticipated_event;
+    protected $gameSalt;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    protected $gameNumber;
 
     public function getId(): ?int
     {
@@ -82,31 +87,51 @@ class Game
         return $this;
     }
 
-    public function getWinNumber(): ?int
+    /**
+     * @return mixed
+     */
+    public function getGameHash()
     {
-        return $this->win_number;
+        return $this->gameHash;
     }
 
-    public function setWinNumber(?int $win_number): self
+    /**
+     * @param mixed $gameHash
+     */
+    public function setGameHash($gameHash): void
     {
-        $this->win_number = $win_number;
-
-        return $this;
+        $this->gameHash = $gameHash;
     }
 
     /**
      * @return mixed
      */
-    public function getAnticipatedEvent()
+    public function getGameSalt()
     {
-        return $this->anticipated_event;
+        return $this->gameSalt;
     }
 
     /**
-     * @param mixed $anticipated_event
+     * @param mixed $gameSalt
      */
-    public function setAnticipatedEvent($anticipated_event): void
+    public function setGameSalt($gameSalt): void
     {
-        $this->anticipated_event = $anticipated_event;
+        $this->gameSalt = $gameSalt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGameNumber()
+    {
+        return $this->gameNumber;
+    }
+
+    /**
+     * @param mixed $gameNumber
+     */
+    public function setGameNumber($gameNumber): void
+    {
+        $this->gameNumber = $gameNumber;
     }
 }

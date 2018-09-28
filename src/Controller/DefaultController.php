@@ -47,16 +47,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/games/nvuti", name="nvuti")
-     */
-    public function nvutiGameRender()
-    {
-        return $this->render('games/nvuti.html.twig', [
-            'wallet'=>$this->getUserWallet()
-        ]);
-    }
-
-    /**
      * @Route("/games/double", name="double")
      */
     public function doubleGameRender()

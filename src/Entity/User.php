@@ -64,9 +64,24 @@ class User implements UserInterface, \Serializable
     private $isActive = false;
 
     /**
-     * @ORM\Column(name="is_test", type="boolean")
+     * @ORM\Column(name="registration_ip", type="string", length=255)
      */
-    private $isTest = false;
+    private $registrationIp;
+
+    /**
+     * @ORM\Column(name="last_ip", type="string", length=255)
+     */
+    private $lastIp;
+
+    /**
+     * @ORM\Column(name="user_ips", type="array")
+     */
+    private $userIps = [];
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $registration_time;
 
     public function getId(): ?int
     {
@@ -177,27 +192,59 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
-     */
-    public function getIsTest()
-    {
-        return $this->isTest;
-    }
-
-    /**
-     * @param mixed $isTest
-     */
-    public function setIsTest($isTest): void
-    {
-        $this->isTest = $isTest;
-    }
-
-    /**
      * @param mixed $roles
      */
     public function setRoles($roles): void
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegistrationIp()
+    {
+        return $this->registrationIp;
+    }
+
+    /**
+     * @param mixed $registrationIp
+     */
+    public function setRegistrationIp($registrationIp): void
+    {
+        $this->registrationIp = $registrationIp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastIp()
+    {
+        return $this->lastIp;
+    }
+
+    /**
+     * @param mixed $lastIp
+     */
+    public function setLastIp($lastIp): void
+    {
+        $this->lastIp = $lastIp;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserIps(): array
+    {
+        return $this->userIps;
+    }
+
+    /**
+     * @param array $user_ips
+     */
+    public function setUserIps(array $userIps): void
+    {
+        $this->userIps = $userIps;
     }
 
     /** @see \Serializable::serialize() */
@@ -211,9 +258,12 @@ class User implements UserInterface, \Serializable
             $this->photo,
             $this->photo_rec,
             $this->email,
-            $this->isTest,
             $this->isActive,
-            $this->roles
+            $this->roles,
+            $this->registrationIp,
+            $this->lastIp,
+            $this->userIps,
+            $this->registration_time
             // see section on salt below
             // $this->salt,
         ));
@@ -229,12 +279,31 @@ class User implements UserInterface, \Serializable
             $this->photo,
             $this->photo_rec,
             $this->email,
-            $this->isTest,
             $this->isActive,
-            $this->roles
+            $this->roles,
+            $this->registrationIp,
+            $this->lastIp,
+            $this->userIps,
+            $this->registration_time
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegistrationTime()
+    {
+        return $this->registration_time;
+    }
+
+    /**
+     * @param mixed $registration_time
+     */
+    public function setRegistrationTime($registration_time): void
+    {
+        $this->registration_time = $registration_time;
     }
 
     public function getPassword()
