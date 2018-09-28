@@ -84,8 +84,11 @@ function startSpin()
 
 function resetWheel()
 {
+    console.log(theWheel.rotationAngle);
+    let rotate = theWheel.rotationAngle;
     theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
-    theWheel.rotationAngle = theWheel.rotationAngle / 0.0174532925199432957;     // Re-set the wheel angle to 0 degrees.
+    theWheel.rotationAngle = rotate; /// 0.0174532925199432957;     // Re-set the wheel angle to 0 degrees.
+    console.log(theWheel.rotationAngle);
     theWheel.draw();                // Call draw to render changes to the wheel.
     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
 }

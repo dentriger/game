@@ -33,13 +33,6 @@ class DoubleGameController extends Controller
         $this->wallet_repository = $this->getDoctrine()->getRepository(Wallet::class);
     }
 
-    private function genrerateNumber()
-    {
-        $number = rand(0, 14);
-        return $number;
-    }
-
-
     public function setBet(Request $request)
     {
         try {
