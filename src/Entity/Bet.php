@@ -4,50 +4,47 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\BetRepository")
- */
-class Bet
+abstract class Bet
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $user_id;
+    protected $user_id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $game_type;
+    protected $game_type;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $game_id;
+    protected $game_id;
     /**
      * @ORM\Column(type="float")
      */
-    private $amount;
+    protected $amount;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $currency;
+    protected $currency;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $bet_time;
+    protected $bet_time;
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    protected $status;
 
     public function getId(): ?int
     {

@@ -6,7 +6,7 @@
             <div class="col-lg-3">
                 <div class="game-size-block mx-auto">
                     <span>Размер игры</span>
-                    <input type="text" class="form-control" placeholder="1">
+                    <input type="text" class="form-control nvuti-amount" value="1">
                     <div class="size-buttons">
                         <a href="#" class="btn">Удвоить</a>
                         <a href="#" class="btn ml-auto">1/5</a>
@@ -19,7 +19,7 @@
             <div class="col-lg-3">
                 <div class="game-chance-block mx-auto">
                     <span>Шанс игры %</span>
-                    <input type="text" class="form-control" placeholder="10">
+                    <input type="text" class="form-control nvuti-chance" value="95">
                     <div class="chance-buttons">
                         <a href="#" class="btn">Удвоить</a>
                         <a href="#" class="btn ml-auto">1/5</a>
@@ -31,17 +31,17 @@
             </div>
             <div class="col-lg-6">
                 <div class="game-side mx-auto">
-                    <b>1.25 N</b>
+                    <b class="nvuti-win">1.05</b>N
                     <span>Возможный выигрыш</span>
                     <div class="buttons">
                         <div class="row">
                             <div class="col-lg-6">
-                                <p>0 - 123456789</p>
-                                <a href="#" class="btn">Меньше</a>
+                                <p class="nvuti-min">0 - 949999</p>
+                                <a class="btn nvuti-btn" about="less">Меньше</a>
                             </div>
                             <div class="col-lg-6">
-                                <p>0 - 123456789</p>
-                                <a href="#" class="btn">Меньше</a>
+                                <p class="nvuti-max">49999 - 999999</p>
+                                <a class="btn nvuti-btn" about="more">Больше</a>
                             </div>
                         </div>
                     </div>
@@ -53,11 +53,15 @@
                 <div class="hash text-center">
                     <h4 class="mx-auto text-center">Hash игры</h4>
                     <p class="hash-value">
-                        ssgdv65x4v8s4c56cx4v8xc4v38v4cz8xc4v6asz8x4c3z8cx46z8xc46z8c46z84cz68c4z68c46z8c4z6x8c4z6c46z8c4z68c46z84c
+                        {{ hash }}
                     </p>
                     <a href="#" class="whatis mx-auto">Что такое hash</a>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/nvuti.js') }}"></script>
 {% endblock %}

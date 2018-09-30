@@ -28,6 +28,11 @@
                             <div class="game-zone">
                                 {% block game %} {% endblock %}
                             </div>
+                            {% for message in app.flashes('notice') %}
+                                <div class="flash-notice">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-lg-4">

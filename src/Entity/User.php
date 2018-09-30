@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\WalletRepository;
 use Doctrine\ORM\Mapping as ORM;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -64,22 +65,22 @@ class User implements UserInterface, \Serializable
     private $isActive = false;
 
     /**
-     * @ORM\Column(name="registration_ip", type="string", length=255)
+     * @ORM\Column(name="registration_ip", type="string", length=255, nullable=true)
      */
     private $registrationIp;
 
     /**
-     * @ORM\Column(name="last_ip", type="string", length=255)
+     * @ORM\Column(name="last_ip", type="string", length=255, nullable=true)
      */
     private $lastIp;
 
     /**
-     * @ORM\Column(name="user_ips", type="array")
+     * @ORM\Column(name="user_ips", type="array", nullable=true)
      */
     private $userIps = [];
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $registration_time;
 

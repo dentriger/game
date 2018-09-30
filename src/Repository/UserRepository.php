@@ -11,7 +11,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -35,9 +34,9 @@ class UserRepository extends ServiceEntityRepository
 
         $wallet = new Wallet();
         $wallet->setUserId($user->getUid());
-
-        $this->_em->persist($user);
+        $user->setWallet($wallet);
         $this->_em->persist($wallet);
+        $this->_em->persist($user);
         $this->_em->flush();
 
 

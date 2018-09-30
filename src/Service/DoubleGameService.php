@@ -2,14 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: andre
- * Date: 10.09.2018
- * Time: 23:32
+ * Date: 30.09.2018
+ * Time: 21:26
  */
 
-namespace App\Services;
+namespace App\Service;
 
 use App\Entity\Game;
-use App\Repository\DoubleGameRepository;
+use App\Repository\BetRepository;
+use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Service\GameService;
@@ -19,13 +20,11 @@ use Ratchet\ConnectionInterface;
 use WebSocket\Client;
 use WebSocket\BadOpcodeException;
 
-class DoubleGame extends GameService
+class DoubleGameService
 {
     private $socket;
 
     private $round_time;
-
-    private $deg;
 
     private $prize_segments = [
         1 => 0,
@@ -51,45 +50,20 @@ class DoubleGame extends GameService
         'black' => 2,
     ];
 
-    public function __construct(DoubleGameRepository $gameRepository,  WalletRepository $walletRepository)
+    public function __construct(GameRepository $gameRepository, BetRepository $betRepository, WalletRepository $walletRepository)
     {
         $host = env('WEBSOCKET_SERVER_URL');
         $port = env('WEBSOCKET_SERVER_PORT');
         $this->socket = new Client("ws://$host:$port");
         $this->round_time = 30;
 
-        parent::__construct($gameRepository, $walletRepository);
+        parent::__construct($gameRepository, $walletRepository, $betRepository);
 
     }
 
     public function startGame()
     {
-        $game = $this->createNewGame();
-
-        $current_time = $this->round_time;
-
-        while($current_time >= 0) {
-            $msg = GameService::createMessage('double', ['timer'=>$current_time]);
-            $this->socket->send($msg);
-            $current_time -= 1;
-            sleep(1);
-        }
-
-        $msg = GameService::createMessage('double', ['roll'=>$this->deg]);
-        $this->socket->send($msg);
-        sleep(15);
-        $this->startGame();
-    }
-
-    public function createNewGame()
-    {
-        $params = new \stdClass();
-        $params->number = ($this->deg % 360 + 12) / 24;
-        $params->salt = $this->getSalt();
-        $params->hash = hash('sha224', $params->number.$params->salt);
-        $game = $this->gameRepository->createDoubleGame($params);
-
-        return $game;
+        $game = new \App\Entity\DoubleGame();
 
     }
 
@@ -104,17 +78,13 @@ class DoubleGame extends GameService
         } catch (\Exception $e) {
 
         }
-        $this->deg = $number;
-        return $number;
-    }
 
-    public function getSalt()
-    {
-        return 'salt';
+        return $number;
     }
 
     public function getMultiplier($event)
     {
         // TODO: Implement getMultiplier() method.
     }
+
 }

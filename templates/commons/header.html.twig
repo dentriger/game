@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item mx-4 active">
-                        <a class="nav-link" href="game.html">Помощь</a>
+                        <a class="nav-link" href="/games">Помощь</a>
                     </li>
                     <li class="nav-item mx-4">
                         <a class="nav-link" href="#">Контакты</a>
@@ -25,14 +25,14 @@
                     </li>
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item ml-4 profile">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/profile">
                                 <img src="{{ asset(app.user.photo) }}">
                             </a>
                         </li>
                         <li class="nav-item profile">
-                            <a class="nav-link" href="profile.html">
+                            <a class="nav-link" href="/profile">
                                 <b>{{ app.user.firstName }}</b>
-                                <span>{{ wallet.balance }}р</span>
+                                <span class="wallet-balance">{{ wallet.balance }}р</span>
                             </a>
                         </li>
                         <li class="nav-item ml-3">

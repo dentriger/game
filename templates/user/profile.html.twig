@@ -50,7 +50,7 @@
                                     </tr>
                                     <tr>
                                         <td>Статус аккаунта:</td>
-                                        <td class="status active">Активный</td>
+                                        <td class="status active">{%  if (app.user.isActive == false) %} Не {% endif %} Активный</td>
                                     </tr>
                                 </table>
                             </div>

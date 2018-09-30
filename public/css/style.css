@@ -3724,4 +3724,19 @@ footer {
     color: #084876;
     font-size: 14px; }
 
+  .wheel {
+    transform: rotateZ(0deg);
+    transition: transform 0s linear;
+  }
+
+  .ukz {
+    width: 52px;
+    height: 100px;
+    left: 50%;
+    margin-left: -26px;
+    top: 10px;
+    z-index: 3;
+    position: absolute;
+    background: url(../images/ukzz.png) center center no-repeat;
+  }
 /*# sourceMappingURL=style.css.map */

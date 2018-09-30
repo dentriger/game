@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "cboden/ratchet": "^0.4.1",
         "cron/cron-bundle": "^2.0",
+        "defiant/randomorg": "^1.0",
         "hwi/oauth-bundle": "^0.6.3",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/httplug-bundle": "^1.11",

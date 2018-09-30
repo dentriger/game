@@ -12,6 +12,7 @@ namespace App\Security;
 use App\Controller\UserController;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\WalletRepository;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;

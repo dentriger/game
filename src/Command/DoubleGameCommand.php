@@ -8,9 +8,7 @@
 
 namespace App\Command;
 
-
-use App\Repository\BetRepository;
-use App\Repository\GameRepository;
+use App\Repository\DoubleGameRepository;
 use App\Repository\WalletRepository;
 use App\Services\DoubleGame;
 use Symfony\Component\Console\Command\Command;
@@ -23,14 +21,11 @@ class DoubleGameCommand extends Command
 
     protected $gameRepository;
 
-    protected $betRepository;
-
     protected $walletRepository;
 
-    public function __construct(GameRepository $gameRepository, BetRepository $betRepository, WalletRepository $walletRepository)
+    public function __construct(DoubleGameRepository $gameRepository, WalletRepository $walletRepository)
     {
         $this->gameRepository = $gameRepository;
-        $this->betRepository = $betRepository;
         $this->walletRepository = $walletRepository;
 
         parent::__construct();
@@ -38,7 +33,7 @@ class DoubleGameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $double_game = new DoubleGame($this->gameRepository, $this->betRepository, $this->walletRepository);
+        $double_game = new DoubleGame($this->gameRepository, $this->walletRepository);
 
         $double_game->startGame();
     }
