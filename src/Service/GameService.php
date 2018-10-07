@@ -31,9 +31,9 @@ abstract class GameService
 
     abstract function createNewGame();
 
-    public static function createMessage($msg, $data)
+    public static function createMessage($topic, $data)
     {
-        $message = [static::class, 'message' => $msg, 'data' => $data];
+        $message = [$topic, 'data' => $data];
 
         return json_encode($message);
     }

@@ -10,15 +10,18 @@ namespace App\Controller;
 
 
 use App\Entity\Bet;
+use App\Entity\DoubleGame;
+use App\Entity\DoubleGameBet;
 use App\Entity\Wallet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DoubleGameController extends Controller
 {
     /**
-     * @var \App\Repository\BetRepository
+     * @var \App\Repository\DoubleGameBetRepository
      */
     private $bet_repository;
 
@@ -27,15 +30,31 @@ class DoubleGameController extends Controller
      */
     private $wallet_repository;
 
+    private $gameRepository;
+
+    private $socket;
+
     public function __construct()
     {
-        $this->bet_repository = $this->getDoctrine()->getRepository(Bet::class);
+        //$this->bet_repository = $this->getDoctrine()->getRepository(DoubleGameBet::class);
         $this->wallet_repository = $this->getDoctrine()->getRepository(Wallet::class);
+        $this->gameRepository = $this->getDoctrine()->getRepository(DoubleGame::class);
+
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+
+        $this->socket = $socket;
+        $this->socket->connect("tcp://localhost:5555");
     }
 
+    /**
+     * @Route("/setDoubleBet", name="doubleBet")
+     * @param Request $request
+     */
     public function setBet(Request $request)
     {
         try {
+
             $user = $this->getUser();
 
             if (is_null($user)) {
@@ -46,13 +65,26 @@ class DoubleGameController extends Controller
                 throw new \Exception('Not enough money');
             }
 
-            $bet = $this->bet_repository->createBetFromRequest($request);
+            $game = $this->gameRepository->findOneBy(['status' => 'pending']);
+            $bet = new DoubleGameBet();
+            $bet->setUserId($user->getUid());
+            $bet->setBetTime(\DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')));
+            $bet->setStatus('pending');
+            $bet->setGameType('double');
+            $bet->setAmount($request->get('amount'));
+            $bet->setCurrency('RUB');
+            $bet->setAnticipatedEvent($request->get('anticipated_event'));
+            $bet->setGameId($game->getId());
+
+            $this->getDoctrine()->getManager()->persist($bet);
+            $this->getDoctrine()->getManager()->flush();
 
 
+//            $bet = $this->bet_repository->createBetFromRequest($request, $this->getUser()->getUid(), $game);
+          $data = ['room:double', 'data' => ['bet' => $bet]];
+           $this->socket->send(json_encode($data));
         } catch (\Exception $exception) {
-            return Response::create($exception->getMessage(), 500);
+            return $exception->getMessage();
         }
-
-        return Response::create('Bet settled', 200);
     }
 }

@@ -26,24 +26,6 @@ class DoubleGameService
 
     private $round_time;
 
-    private $prize_segments = [
-        1 => 0,
-        2 => 1,
-        3 => 8,
-        4 => 2,
-        5 => 9,
-        6 => 3,
-        7 => 10,
-        8 => 4,
-        9 => 11,
-        10 => 5,
-        11 => 12,
-        12 => 6,
-        13 => 13,
-        14 => 7,
-        15 => 14
-    ];
-
     protected $gameRules = [
         'green' => 14,
         'red' => 2,

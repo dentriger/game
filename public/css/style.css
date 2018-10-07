@@ -2987,7 +2987,7 @@ main .game-page {
           main .game-page .game .game-zone .double-wheel .wheel-block b.wheel-number.green {
             color: #00c435; }
           main .game-page .game .game-zone .double-wheel .wheel-block b.wheel-number.red {
-            color: #ff0b4b; }
+            color: #ffc107; }
           main .game-page .game .game-zone .double-wheel .wheel-block .wheel {
             background: url("../images/wheel.png") no-repeat center;
             width: 253px;
@@ -3734,7 +3734,7 @@ footer {
     height: 100px;
     left: 50%;
     margin-left: -26px;
-    top: 10px;
+    top: 42px;
     z-index: 3;
     position: absolute;
     background: url(../images/ukzz.png) center center no-repeat;
