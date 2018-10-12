@@ -43,32 +43,15 @@ class UserRepository extends ServiceEntityRepository
         return $user;
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+     * @param $email string
+     *
+     * @return $user User
+     */
+    public function loadUserByEmail($email) {
+        $user = $this->findOneBy(['email'=>$email]);
+        $wallets = $this->_em->getDoctrine()->getRepository(Wallet::class)->findBy(['user_id' => $user->getUid()]);
+        $user->setWallet($wallets);
+        return $user;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

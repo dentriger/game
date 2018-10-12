@@ -60,6 +60,8 @@ class UserProvider implements OAuthAwareUserProviderInterface, UserProviderInter
             $user = $this->userRepository->createUserFromResponse($response);
         }
 
+        $user->walets = $wallets;
+
         return $user;
     }
 }

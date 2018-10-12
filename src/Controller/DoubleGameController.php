@@ -36,7 +36,7 @@ class DoubleGameController extends Controller
 
     public function __construct()
     {
-        //$this->bet_repository = $this->getDoctrine()->getRepository(DoubleGameBet::class);
+        $this->bet_repository = $this->getDoctrine()->getRepository(DoubleGameBet::class);
         $this->wallet_repository = $this->getDoctrine()->getRepository(Wallet::class);
         $this->gameRepository = $this->getDoctrine()->getRepository(DoubleGame::class);
 
@@ -81,7 +81,7 @@ class DoubleGameController extends Controller
 
 
 //            $bet = $this->bet_repository->createBetFromRequest($request, $this->getUser()->getUid(), $game);
-          $data = ['room:double', 'data' => ['bet' => $bet]];
+           $data = ['room:double', 'data' => ['bet' => $bet]];
            $this->socket->send(json_encode($data));
         } catch (\Exception $exception) {
             return $exception->getMessage();
