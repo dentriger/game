@@ -30,8 +30,6 @@ class UserProvider implements OAuthAwareUserProviderInterface, UserProviderInter
 
     public function getUsernameForApiKey($apiKey)
     {
-        // Look up the username based on the token in the database, via
-        // an API call, or do something entirely different
         $username = 'ad';
 
         return $username;
@@ -39,7 +37,7 @@ class UserProvider implements OAuthAwareUserProviderInterface, UserProviderInter
 
     public function loadUserByUsername($username)
     {
-        return $this->userRepository->findOneBy(['email'=>$username]);
+        return $this->userRepository->loadUserByEmail($username);
     }
 
     public function refreshUser(UserInterface $user)
@@ -59,8 +57,6 @@ class UserProvider implements OAuthAwareUserProviderInterface, UserProviderInter
         if(is_null($user)) {
             $user = $this->userRepository->createUserFromResponse($response);
         }
-
-        $user->walets = $wallets;
 
         return $user;
     }

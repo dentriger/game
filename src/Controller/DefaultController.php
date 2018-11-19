@@ -21,9 +21,7 @@ class DefaultController extends Controller
      */
     public function indexRender()
     {
-        return $this->render('default/index.html.twig', [
-            'wallet'=>$this->getUserWallet()
-        ]);
+        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -31,9 +29,7 @@ class DefaultController extends Controller
      */
     public function profileRender()
     {
-        return $this->render('user/profile.html.twig', [
-            'wallet'=>$this->getUserWallet()
-        ]);
+        return $this->render('user/profile.html.twig');
     }
 
     /**
@@ -41,9 +37,7 @@ class DefaultController extends Controller
      */
     public function gamesRender()
     {
-       return $this->render('default/games.html.twig', [
-          'wallet'=>$this->getUserWallet()
-       ]);
+       return $this->render('default/games.html.twig');
     }
 
     /**
@@ -51,9 +45,7 @@ class DefaultController extends Controller
      */
     public function doubleGameRender()
     {
-        return $this->render('games/double.html.twig', [
-            'wallet'=>$this->getUserWallet()
-        ]);
+        return $this->render('games/double.html.twig');
     }
 
     /**
@@ -61,17 +53,6 @@ class DefaultController extends Controller
      */
     public function jackpotGameRender()
     {
-        return $this->render('games/jackpot.html.twig', [
-            'wallet'=>$this->getUserWallet()
-        ]);
-    }
-
-    public function getUserWallet()
-    {
-        $user = $this->getUser();
-        $uid = $user ? $user->getUid() : null;
-        $wallet = $this->getDoctrine()->getRepository(Wallet::class)->findOneBy(['user_id'=>$uid]);
-
-        return $wallet;
+        return $this->render('games/jackpot.html.twig');
     }
 }

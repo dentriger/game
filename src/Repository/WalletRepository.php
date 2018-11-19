@@ -19,11 +19,6 @@ class WalletRepository extends ServiceEntityRepository
         parent::__construct($registry, Wallet::class);
     }
 
-    public function getUserWallet($user_id)
-    {
-        return $this->findOneBy(['user_id' => $user_id]);
-    }
-
     public function updateBalance($user_id, $amount, $win_multiplier = 1)
     {
         $wallet = $this->findOneBy(['user_id'=> $user_id]);
@@ -40,32 +35,15 @@ class WalletRepository extends ServiceEntityRepository
         return $wallet;
     }
 
-//    /**
-//     * @return Wallet[] Returns an array of Wallet objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function createUserWallets()
     {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $wallets = [];
+        foreach (Wallet::WALLET_TYPES as $WALLET_TYPE) {
+            $wallet = new Wallet();
+            $wallet->setType($WALLET_TYPE);
+            $wallets[] = $wallet;
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Wallet
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $wallets;
     }
-    */
 }

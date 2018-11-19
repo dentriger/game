@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WalletRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -83,6 +85,32 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $registration_time;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Wallet", mappedBy="user")
+     */
+    private $wallets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Referals", inversedBy="users")
+     */
+    private $referals;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $referalLink;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="user_id", orphanRemoval=true)
+     */
+    private $messages;
+
+    public function __construct()
+    {
+        $this->wallets = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -248,6 +276,14 @@ class User implements UserInterface, \Serializable
         $this->userIps = $userIps;
     }
 
+    public function addUserIp($userIp) {
+        if (!in_array($userIp, $this->userIps)) {
+            $this->userIps[] = $userIp;
+        }
+
+        return $this;
+    }
+
     /** @see \Serializable::serialize() */
     public function serialize()
     {
@@ -264,9 +300,8 @@ class User implements UserInterface, \Serializable
             $this->registrationIp,
             $this->lastIp,
             $this->userIps,
-            $this->registration_time
-            // see section on salt below
-            // $this->salt,
+            $this->registration_time,
+            $this->wallets,
         ));
     }
     /** @see \Serializable::unserialize() */
@@ -285,9 +320,8 @@ class User implements UserInterface, \Serializable
             $this->registrationIp,
             $this->lastIp,
             $this->userIps,
-            $this->registration_time
-            // see section on salt below
-            // $this->salt
+            $this->registration_time,
+            $this->wallets,
             ) = unserialize($serialized);
     }
 
@@ -330,5 +364,98 @@ class User implements UserInterface, \Serializable
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Wallet[]
+     */
+    public function getWallets(): Collection
+    {
+        return $this->wallets;
+    }
+
+    public function setWallets(?Wallet $wallet): self
+    {
+        $this->wallets[] = $wallet;
+
+        return $this;
+    }
+
+    public function addWallet(Wallet $wallet): self
+    {
+        if (!$this->wallets->contains($wallet)) {
+            $this->wallets[] = $wallet;
+            $wallet->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWallet(Wallet $wallet): self
+    {
+        if ($this->wallets->contains($wallet)) {
+            $this->wallets->removeElement($wallet);
+            // set the owning side to null (unless already changed)
+            if ($wallet->getUser() === $this) {
+                $wallet->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getReferals(): ?Referals
+    {
+        return $this->referals;
+    }
+
+    public function setReferals(?Referals $referals): self
+    {
+        $this->referals = $referals;
+
+        return $this;
+    }
+
+    public function getReferalLink(): ?string
+    {
+        return $this->referalLink;
+    }
+
+    public function setReferalLink(string $referalLink): self
+    {
+        $this->referalLink = $referalLink;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

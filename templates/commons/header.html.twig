@@ -32,7 +32,11 @@
                         <li class="nav-item profile">
                             <a class="nav-link" href="/profile">
                                 <b>{{ app.user.firstName }}</b>
-                                <span class="wallet-balance">{{ wallet.balance }}р</span>
+                                {% for wallet in app.user.wallets %}
+                                    {% if wallet.type == 'RUB' %}
+                                        <span class="wallet-balance rub">{{ wallet.balance }}р</span>
+                                    {% endif %}
+                                {% endfor %}
                             </a>
                         </li>
                         <li class="nav-item ml-3">

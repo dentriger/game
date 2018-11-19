@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\DoubleGame;
 use App\Entity\NvutiGame;
+use App\Services\RandomOrg;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -20,33 +21,31 @@ class NvutiGameRepository extends ServiceEntityRepository
         parent::__construct($registry, NvutiGame::class);
     }
 
-
-//    /**
-//     * @return NvutiGame[] Returns an array of NvutiGame objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function createGame($userId)
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $number = RandomOrg::getInstance()->generateIntegers(1, NvutiGame::MIN_NUMBER, NvutiGame::MAX_NUMBER, false);
+        $salt = RandomOrg::getInstance()->generateStrings(1, 6);
+        $hash = $this->hashNumber($number, $salt);
 
-    /*
-    public function findOneBySomeField($value): ?NvutiGame
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if(!$game = $this->_em->getRepository(NvutiGame::class)->findOneBy(['user_id' => $userId, 'status' => 'pending', 'name' => 'nvuti'])) {
+            $game = new NvutiGame();
+        }
+
+        $game->setName('nvuti');
+        $game->setTime(new \DateTime());
+        $game->setStatus('pending');
+        $game->setGameSalt($salt);
+        $game->setGameNumber($number);
+        $game->setGameHash($hash);
+        $game->setUserId($userId);
+        $this->_em->persist($game);
+        $this->_em->flush();
+
+        return $game;
     }
-    */
+
+    private function hashNumber($number, $salt)
+    {
+        return hash('sha224', $number.$salt);
+    }
 }

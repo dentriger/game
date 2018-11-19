@@ -35,8 +35,12 @@ class Pusher
 
     public function pushMessage($data)
     {
-        $msg = json_encode($data);
-        $this->socket->send($msg);
+        try {
+            $msg = json_encode($data);
+            $this->socket->send($msg);
+        } catch (\ZMQSocketException $e) {
+
+        }
     }
 
 }

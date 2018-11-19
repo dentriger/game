@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\NvutiGame;
 use App\Entity\NvutiGameBet;
+use App\Services\RandomOrg;
 use RandomOrg\Random;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,84 +14,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use App\Entity\Game;
-use App\Entity\Wallet;
 
 class NvutiController extends AbstractController
 {
-    const MIN_NUMBER = 0;
-
-    const MAX_NUMBER = 999999;
-
-    const STAKE_LESS = 'less';
-
-    const STAKE_MORE = 'more';
-
     /**
      * @Route("/games/nvuti", name="nvuti")
      */
     public function nvutiGameRender()
     {
-        $hash = $this->createGame();
-        return $this->render('games/nvuti.html.twig', ['wallet'=>$this->getUserWallet(),'hash' => $hash]);
-    }
+        $game = $this->getDoctrine()->getRepository(NvutiGame::class)->createGame($this->getUser()->getUid());
 
-    /**
-     * @return Wallet|null
-     */
-    public function getUserWallet()
-    {
-        $user = $this->getUser();
-        $uid = $user ? $user->getUid() : null;
-        $wallet = $this->getDoctrine()->getRepository(Wallet::class)->findOneBy(['user_id'=>$uid]);
-
-        return $wallet;
-    }
-
-    public function createGame()
-    {
-        $number = $this->generateNumber();
-        $salt = $this->generateSalt();
-        $hash = $this->hashNumber($number, $salt);
-        if(!$game = $this->getDoctrine()->getManager()->getRepository(NvutiGame::class)->findOneBy(['user_id' => $this->getUser()->getUid(), 'status' => 'pending', 'name' => 'nvuti'])) {
-
-            $game = new NvutiGame();
-        }
-        $game->setName('nvuti');
-        $game->setTime(\DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')));
-        $game->setStatus('pending');
-        $game->setGameSalt($salt);
-        $game->setGameNumber($number);
-        $game->setGameHash($hash);
-        $game->setUserId($this->getUser()->getUid());
-        $this->getDoctrine()->getManager()->persist($game);
-        $this->getDoctrine()->getManager()->flush();
-
-        return $hash;
-    }
-
-    private function generateNumber()
-    {
-        $number = 0;
-        try {
-
-            $random = new Random(env('RANDOM_ORG_API_KEY'));
-            $result = $random->generateIntegers(1, self::MIN_NUMBER, self::MAX_NUMBER, false);
-            $number = $result['result']['random']['data'][0];
-        } catch (\Exception $e) {
-
-        }
-
-        return $number;
-    }
-
-    private function hashNumber($number, $salt)
-    {
-        return hash('sha224', $number.$salt);
-    }
-
-    private function generateSalt()
-    {
-        return 'salt';
+        return $this->render('games/nvuti.html.twig', [
+            'hash' => $game->getGameHash()
+        ]);
     }
 
     /**
@@ -181,9 +117,6 @@ class NvutiController extends AbstractController
             return true;
         }
 
-
-
         return false;
     }
-
 }

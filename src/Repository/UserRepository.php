@@ -7,6 +7,7 @@ use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 
 /**
@@ -23,6 +24,8 @@ class UserRepository extends ServiceEntityRepository
 
     public function createUserFromResponse(UserResponseInterface $response) {
         $user = new User();
+        $request = Request::createFromGlobals();
+        $ip = $request->getClientIp();
 
         $user->setUid($response->getUsername());
         $user->setFirstName($response->getFirstName());
@@ -31,11 +34,19 @@ class UserRepository extends ServiceEntityRepository
         $user->setPhotoRec($response->getProfilePicture());
         $user->setEmail($response->getEmail());
         $user->setHash(md5(getenv('VK_CLIENT_ID').$response->getUsername().getenv('VK_SECRET_KEY')));
+        $user->setRegistrationIp($ip);
+        $user->setLastIp($ip);
+        $user->addUserIp($ip);
+        $user->setIsActive(true);
+        $user->setRegistrationTime(new \DateTime());
+        $user->setReferalLink(env('REFERRAL_LINK' . $response->getUsername()));
 
-        $wallet = new Wallet();
-        $wallet->setUserId($user->getUid());
-        $user->setWallet($wallet);
-        $this->_em->persist($wallet);
+        $wallets = $this->_em->getRepository(Wallet::class)->createUserWallets();
+        foreach ($wallets as $wallet) {
+            $user->addWallet($wallet);
+            $this->_em->persist($wallet);
+        }
+
         $this->_em->persist($user);
         $this->_em->flush();
 
@@ -49,9 +60,6 @@ class UserRepository extends ServiceEntityRepository
      * @return $user User
      */
     public function loadUserByEmail($email) {
-        $user = $this->findOneBy(['email'=>$email]);
-        $wallets = $this->_em->getDoctrine()->getRepository(Wallet::class)->findBy(['user_id' => $user->getUid()]);
-        $user->setWallet($wallets);
-        return $user;
+        return $this->findOneBy(['email'=>$email]);
     }
 }

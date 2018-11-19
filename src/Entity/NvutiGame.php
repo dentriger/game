@@ -9,6 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NvutiGame extends Game
 {
+    const MIN_NUMBER = 0;
+
+    const MAX_NUMBER = 999999;
+
+    const STAKE_LESS = 'less';
+
+    const STAKE_MORE = 'more';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

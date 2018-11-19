@@ -28,6 +28,7 @@ $(document).ready(function () {
         }
 
         if(doubleGame.bet) {
+            console.log('New bet');
             addNewBet();
         }
     }
