@@ -39,7 +39,7 @@ class UserRepository extends ServiceEntityRepository
         $user->addUserIp($ip);
         $user->setIsActive(true);
         $user->setRegistrationTime(new \DateTime());
-        $user->setReferalLink(env('REFERRAL_LINK' . $response->getUsername()));
+        $user->generateReferalLink();
 
         $wallets = $this->_em->getRepository(Wallet::class)->createUserWallets();
         foreach ($wallets as $wallet) {

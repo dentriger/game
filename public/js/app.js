@@ -123,6 +123,13 @@ $(document).ready(function () {
             dataType: 'json',
             success: success
         });
-    })
+    });
+
+    $('#vk_auth').click(function (e) {
+        $.ajax({
+           url:'/connect/vkontakte',
+           method:'GET'
+        });
+    });
 
 });

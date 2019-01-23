@@ -8,65 +8,110 @@
 
 namespace App\Service;
 
-use App\Entity\Game;
-use App\Repository\BetRepository;
-use App\Repository\GameRepository;
-use App\Repository\UserRepository;
-use App\Repository\WalletRepository;
-use App\Service\GameService;
+
+use App\Services\RandomOrg;
 use RandomOrg\Random;
-use Ratchet\MessageComponentInterface;
-use Ratchet\ConnectionInterface;
-use WebSocket\Client;
-use WebSocket\BadOpcodeException;
 
-class DoubleGameService
+class DoubleGameService implements GameInterface
 {
-    private $socket;
 
-    private $round_time;
+    private static $run = true;
 
-    protected $gameRules = [
-        'green' => 14,
-        'red' => 2,
-        'black' => 2,
-    ];
+    private static $stop = 3000;
 
-    public function __construct(GameRepository $gameRepository, BetRepository $betRepository, WalletRepository $walletRepository)
+    private static $isConfigurated = false;
+
+    private static $random;
+
+    public static function start()
     {
-        $host = env('WEBSOCKET_SERVER_URL');
-        $port = env('WEBSOCKET_SERVER_PORT');
-        $this->socket = new Client("ws://$host:$port");
-        $this->round_time = 30;
+        if (!self::$isConfigurated) {
+            self::configurateService();
+        }
 
-        parent::__construct($gameRepository, $walletRepository, $betRepository);
+        try {
+            do {
+                $number = self::getRandomNumber();
 
+            } while (self::$run);
+
+        } catch (\Exception $exception) {
+            self::restart();
+        }
+
+        //if game stop -> pause for some time
+
+        //if game not start -> start game
+        //tick timer to start the game
+        //get win sector
+        //send time to front
+        //stop tick -> send data for roll -> close stakes
+        // send win data
+        //Get users their wins
+        // restart game
+
+        //if error close game -> return stakes to users
+        //restart game
+        //
     }
 
-    public function startGame()
+    public static function restart()
     {
-        $game = new \App\Entity\DoubleGame();
-
+        self::start();
     }
 
-    public function getRandomNumber()
+    public static function stop()
+    {
+        sleep(self::$stop);
+    }
+
+    private static function configurateService()
+    {
+        self::$random = new Random(env('RANDOM_ORG_API_KEY'));
+        self::$isConfigurated = true;
+    }
+
+    private static function getRandomNumber()
     {
         $number = 0;
         try {
-
-            $random = new Random(env('RANDOM_ORG_API_KEY'));
-            $result = $random->generateIntegers(1, 3600, 7200, false);
+            $result = self::$random->generateIntegers(1, 3600, 7200, false);
             $number = $result['result']['random']['data'][0];
         } catch (\Exception $e) {
-
+            echo $e->getMessage();
         }
 
         return $number;
     }
 
-    public function getMultiplier($event)
+    public static function createNewGame($number)
     {
-        // TODO: Implement getMultiplier() method.
+        $params = new \stdClass();
+        $params->number = self::parseNumber($number % 360);
+        $params->salt = self::getSalt();
+        $params->hash = hash('sha224', $params->number.$params->salt);
+        $game = $this->gameRepository->createDoubleGame($params);
+
+        return $game;
     }
 
+    public static function parseNumber($deg) {
+        foreach ($this->numbers_sectors as $key => $sector) {
+            if (in_array($deg, range($sector[0], $sector[1], 1))) {
+                return $key;
+            }
+
+            if ($key = 0) {
+                if (in_array($deg, range($sector[0], $sector[1], 1)) || in_array($deg, range($sector[2], $sector[3], 1))) {
+                    return $key;
+                }
+            }
+        }
+    }
+
+    public static function getSalt()
+    {
+        $result = self::$random->generateStrings(1, 6);
+        return $result['result']['random']['data'][0];
+    }
 }

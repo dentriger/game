@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -45,5 +46,11 @@ class WalletRepository extends ServiceEntityRepository
         }
 
         return $wallets;
+    }
+
+    public function getUserWallet($userId)
+    {
+        var_dump($userId);
+        return $this->findOneBy(['user' => $userId, 'type' => 'RUB']);
     }
 }

@@ -6,6 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 abstract class Bet
 {
+
+    public function __construct()
+    {
+       //$this->bet_time =
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

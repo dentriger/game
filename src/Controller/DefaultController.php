@@ -25,34 +25,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/profile", name="profile")
-     */
-    public function profileRender()
-    {
-        return $this->render('user/profile.html.twig');
-    }
-
-    /**
      * @Route("/games", name="games")
      */
     public function gamesRender()
     {
        return $this->render('default/games.html.twig');
-    }
-
-    /**
-     * @Route("/games/double", name="double")
-     */
-    public function doubleGameRender()
-    {
-        return $this->render('games/double.html.twig');
-    }
-
-    /**
-     * @Route("/games/jackpot", name="jackpot")
-     */
-    public function jackpotGameRender()
-    {
-        return $this->render('games/jackpot.html.twig');
     }
 }

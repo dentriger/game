@@ -19,7 +19,7 @@ security:
             oauth:
                 resource_owners:
                     vkontakte: /login/check-vkontakte
-                login_path: /login
+                login_path: /
                 use_forward: false
                 failure_path: /
                 oauth_user_provider:
@@ -31,4 +31,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_USER }

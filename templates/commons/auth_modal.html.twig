@@ -1,0 +1,69 @@
+
+<div class="modal fade auth-modal show" style="padding-right: 15px; display: block;"><div class="modal-dialog modal-content" role="document">
+        <div class="modal-header">
+            <h4 rv-translate="">Выберите удобный способ входа:</h4>
+            <!-- rivets: if model:error -->
+        </div>
+        <div class="modal-body">
+            <ul class="login-list">
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_meaest" data-auth-provider="steam" rv-enabled="model:confirmation">
+                        <span rv-svg="'steam'"></span>
+                    </button>
+                    <span class="login-item__title">Steam</span>
+                </li>
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_elgoog" data-auth-provider="google" rv-enabled="model:confirmation">
+                        <span rv-svg="'google'"></span>
+                    </button>
+                    <span class="login-item__title">Google</span>
+                </li>
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_kv" data-auth-provider="vkontakte" rv-enabled="model:confirmation">
+                        <span rv-svg="'vkontakte'"></span>
+                    </button>
+                    <span class="login-item__title">VK</span>
+                </li>
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_rettiwt" data-auth-provider="twitter" rv-enabled="model:confirmation">
+                        <span rv-svg="'twitter'"></span>
+                    </button>
+                    <span class="login-item__title">Twitter</span>
+                </li>
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_koob" data-auth-provider="facebook" rv-enabled="model:confirmation">
+                        <span rv-svg="'facebook'"></span>
+                    </button>
+                    <span class="login-item__title">Facebook</span>
+                </li>
+
+                <li class="login-item">
+                    <button class="btn login-item__button social-auth_xednay" data-auth-provider="yandex" rv-enabled="model:confirmation">
+                        <span rv-svg="'yandex'"></span>
+                    </button>
+                    <span class="login-item__title">Yandex</span>
+                </li>
+
+            </ul>
+
+            <div class="login-recaptcha d-flex justify-content-center pt-3"></div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <div class="confirm-check-box">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="buy-coins-accept-checkbox" rv-checked="model:confirmation">
+                    <label class="custom-control-label small text-muted" for="buy-coins-accept-checkbox">
+                        <span rv-translate="">Мне 18 и я ознакомился с</span>
+                        <a href="/tos" rv-on-click="view.onTos" rv-translate="">правилами и условиями</a>.
+                        <span rv-t="" rv-tippy="'In addition, I am not a citizen and don’t entry to the site from the territory of the following countries: USA, Australia, Hong Kong, India, Indonesia, Japan, Korea, Malaysia, and Singapore.' | translate" tabindex="0">Так же</span>…
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

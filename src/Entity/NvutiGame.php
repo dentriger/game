@@ -17,6 +17,10 @@ class NvutiGame extends Game
 
     const STAKE_MORE = 'more';
 
+    const STATUS_PENDING = 'pending';
+
+    const STATUS_CLOSED = 'closed';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

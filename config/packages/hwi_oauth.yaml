@@ -5,3 +5,4 @@ hwi_oauth:
             type: vkontakte
             client_id: "%env(VK_CLIENT_ID)%"
             client_secret: "%env(VK_SECRET_KEY)%"
+            scope: "email"

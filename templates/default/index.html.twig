@@ -9,25 +9,9 @@
                     <p class="mx-auto col-lg-7 my-3">
                         Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях.
                     </p>
-                    {#<a href="#" class="btn btn-light px-3"><i class="fa fa-vk"></i> Войти через VK</a>#}
-                    <button type="button" class="btn btn-light px-3" data-toggle="modal" data-target="#exampleModal">
+                    <a href="/connect/vkontakte" class="btn btn-light px-3" data-toggle="" data-target="" id="vk_auth">
                         <i class="fa fa-vk"></i> Войти через VK
-                    </button>
-                </div>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="auth">
-                                    <!-- VK Widget -->
-                                    <div id="vk_auth"></div>
-                                    <script type="text/javascript">
-                                        VK.Widgets.Auth("vk_auth", {"authUrl":"/connect/vkontakte"});
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="row services">
                     <div class="col-lg-3 text-center px-4 my-3">

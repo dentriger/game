@@ -395,7 +395,6 @@ class User implements UserInterface, \Serializable
     {
         if ($this->wallets->contains($wallet)) {
             $this->wallets->removeElement($wallet);
-            // set the owning side to null (unless already changed)
             if ($wallet->getUser() === $this) {
                 $wallet->setUser(null);
             }
@@ -421,9 +420,10 @@ class User implements UserInterface, \Serializable
         return $this->referalLink;
     }
 
-    public function setReferalLink(string $referalLink): self
+    public function generateReferalLink(): self
     {
-        $this->referalLink = $referalLink;
+        $link = env('REFERRAL_LINK') . $this->uid;
+        $this->referalLink = $link;
 
         return $this;
     }

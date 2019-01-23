@@ -1,10 +1,10 @@
 $(document).ready(function(){
-    $('.nvuti-amount').change(function () {
+    $('.nvuti-amount').on("change paste keyup", function () {
         let win_amount = $('.nvuti-amount').val()/$('.nvuti-chance').val() * 100;
         $('.nvuti-win').text(win_amount.toFixed(2));
     });
 
-    $('.nvuti-chance').change(function () {
+    $('.nvuti-chance').on("change paste keyup", function () {
         let win_amount = $('.nvuti-amount').val()/$('.nvuti-chance').val() * 100;
         $('.nvuti-win').text(win_amount.toFixed(2));
         let min = Math.floor(parseInt($('.nvuti-chance').val())/100 * 999999);
@@ -22,17 +22,21 @@ $(document).ready(function(){
             'amount': amount,
             'stake': stake
         };
-        success = function(data) {
-
-            console.log(data);
-            $('.hash-value').text(data.hash);
-            $('.wallet-balance').text(data.wallet.balance)
-        };
+        // success = function(data) {
+        //
+        //     console.log(data);
+        //     $('.hash-value').text(data.hash);
+        //     $('.wallet-balance').text(data.wallet.balance)
+        // };
         $.ajax({
             url: '/setBet',
             data: data,
             dataType: 'json',
-            success: success
+            success: function (response) {
+                console.log(data);
+                $('.hash-value').text(response.hash);
+                //     $('.wallet-balance').text(data.wallet.balance)
+            }
         });
     })
 });
