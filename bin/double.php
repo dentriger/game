@@ -7,6 +7,8 @@ use App\Repository\GameRepository;
 use App\Repository\WalletRepository;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
+use App\Repository\DoubleGameRepository;
+
 
 $double = new \App\Services\DoubleGame();
 
