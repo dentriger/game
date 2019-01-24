@@ -44,6 +44,7 @@ class NvutiController extends AbstractController
         $payload = $request->query->all();
         $this->getDoctrine()->getRepository(NvutiGameBet::class)->setBet($this->getUser()->getId(), $payload);
         $hash = $this->getDoctrine()->getRepository(NvutiGame::class)->createGame($this->getUser()->getId())->getGameHash();
+        $this->addFlash('notice', 'Ставка принята');
         return $this->json(['hash'=>$hash]);
     }
 }

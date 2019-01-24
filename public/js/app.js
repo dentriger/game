@@ -132,4 +132,12 @@ $(document).ready(function () {
         });
     });
 
+    $('.close').click(function (e) {
+        let el = $(this).parent();
+        el.prop('style').opacity = '0';
+        setTimeout(function () {
+            el.remove();
+        }, 600);
+    });
+
 });

@@ -34,7 +34,7 @@
                                 <b>{{ app.user.firstName }}</b>
                                 {% for wallet in app.user.wallets %}
                                     {% if wallet.type == 'RUB' %}
-                                        <span class="wallet-balance rub">{{ wallet.balance }}р</span>
+                                        <span class="wallet-balance rub" id="wallet-balance">{{ wallet.balance }}р</span>
                                     {% endif %}
                                 {% endfor %}
                             </a>

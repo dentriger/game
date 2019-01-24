@@ -22,20 +22,15 @@ $(document).ready(function(){
             'amount': amount,
             'stake': stake
         };
-        // success = function(data) {
-        //
-        //     console.log(data);
-        //     $('.hash-value').text(data.hash);
-        //     $('.wallet-balance').text(data.wallet.balance)
-        // };
+
         $.ajax({
             url: '/setBet',
             data: data,
             dataType: 'json',
             success: function (response) {
-                console.log(data);
+                console.log(response);
                 $('.hash-value').text(response.hash);
-                //     $('.wallet-balance').text(data.wallet.balance)
+                $('.wallet-balance').text(data.wallet.balance)
             }
         });
     })

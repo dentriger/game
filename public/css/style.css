@@ -3457,6 +3457,22 @@ footer {
   padding: 1rem;
 }
 
+.notices-container, .flash-notices {
+  z-index: 999;
+}
+
+.notices-container--bottom-fixed {
+  position: fixed;
+  width: 100%;
+  bottom: -700px;
+  max-width: 350px;
+}
+
+.alert {
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
 .auth-modal .modal-footer {
   border-top: 0;
   display: flex;
