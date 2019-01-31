@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,4 +37,5 @@ class AdminController extends Controller
 
         return $this->render('admin/user_profile.html.twig', ['user' => $user]);
     }
+
 }

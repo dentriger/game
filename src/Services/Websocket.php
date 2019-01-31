@@ -29,7 +29,7 @@ class Websocket implements WampServerInterface
         $this->clients->attach($conn);
 
         echo "New connection! ({$conn->resourceId})\n";
-        echo "Subscriptions! {$this->subscribedTopics[0]}\n";
+        echo "Subscriptions! {$this->subscribedTopics}\n";
     }
 
     public function onClose(ConnectionInterface $conn)

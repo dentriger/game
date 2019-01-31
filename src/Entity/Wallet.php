@@ -43,14 +43,14 @@ class Wallet
         return $this->id;
     }
     
-    public function getBalance(): ?float
+    public function getBalance(): float
     {
         return $this->balance;
     }
 
     public function setBalance(float $balance): self
     {
-        $this->balance = $balance;
+        $this->balance = round($balance, 2);
 
         return $this;
     }

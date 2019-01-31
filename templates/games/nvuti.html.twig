@@ -61,15 +61,7 @@
             </div>
         </div>
             {% if app.user == null %}
-            <div class="not-auth-placeholder not-auth-placeholder_backdrop d-flex" d>
-                <div class="not-auth-placeholder__text">Авторизируйся, чтобы испытать удачу</div>
-                <div class="not-auth-placeholder__buttons">
-                    <button class="btn btn-primary btn-lg not-auth-placeholder__button" rv-on-click="view.login">
-                        <span rv-translate="">Авторизоваться</span>
-                    </button>
-                    <div class="not-auth-placeholder__embed"></div>
-                </div>
-            </div>
+                {% include 'commons/no_auth_placeholder.html.twig' %}
             {% endif %}
         </div>
     </div>

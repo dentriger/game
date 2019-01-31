@@ -62,7 +62,7 @@ class NvutiGameBetRepository extends ServiceEntityRepository
         $event = 'lost';
 
         if($this->isStakeWin($stake, $chance, $win_number)) {
-           $current_balance += round($amount/$chance * 100, 2);
+           $current_balance += $amount/$chance * 100;
            $event = 'win';
         }
         $wallet->setBalance($current_balance);

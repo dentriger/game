@@ -114,14 +114,11 @@ $(document).ready(function () {
             'amount': 10,
             'anticipated_event': 'red'
         };
-        success = function(data) {
 
-        };
         $.ajax({
             url: '/setDoubleBet',
             data: data,
             dataType: 'json',
-            success: success
         });
     });
 

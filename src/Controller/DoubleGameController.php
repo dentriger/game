@@ -21,5 +21,8 @@ class DoubleGameController extends AbstractController
         return $this->render('games/double.html.twig');
     }
 
-    //function for set bet
+    public function setBet()
+    {
+
+    }
 }

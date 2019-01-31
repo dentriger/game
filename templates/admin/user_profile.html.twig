@@ -25,39 +25,25 @@
             <!--left col-->
             <ul class="list-group">
                 <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> 2.13.2014</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Yesterday</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Real name</strong></span> Joseph
-                    Doe</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Role: </strong></span> Pet Sitter
-
-                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Дата регистрации</strong></span> {{ user.getRegistrationTime|date('Y-m-d H:i:s') }}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Email</strong></span>{{ user.email }}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">IP Регистрации</strong></span>{{ user.registrationIp }}</li>
             </ul>
 
+        </div>
+        <div class="col-sm-3">
             <ul class="list-group">
-                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i>
+                <li class="list-group-item text-muted">Кошелек <i class="fa fa-dashboard fa-1x"></i></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Баланс</strong></span>  {{ user.wallets[0].balance }}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Сумма пополнений</strong></span> 0</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Сумма выводов</strong></span> 0</li>
 
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78</li>
             </ul>
         </div>
         <!--/col-3-->
-        <div class="col-sm-9" style="" contenteditable="false">
-            <div class="panel panel-default">
-                <div class="panel-heading">Starfox221's Bio</div>
-                <div class="panel-body"> A long description about me.
+        <div class="col-sm-12" style="" contenteditable="false">
 
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">Starfox221's Bio</div>
-                <div class="panel-body"> A long description about me.
-
-                </div>
-            </div></div>
+        </div>
 
 
         <div id="push"></div>
